@@ -1,18 +1,66 @@
-<!doctype html>
-<html>
-<head>
-  <title>{{ trainer.name }}</title>
-</head>
-<body>
-  <h1>{{ trainer.name }}</h1>
-  <p>Money: {{ trainer.money }}</p>
-  <p>XP: {{ trainer.xp }}</p>
-  <h2>Pokemon</h2>
-  <ul>
-    {% for p in pokemon %}
-    <li>{{ p.name }} (Lv {{ p.level }}) - Moves: {{ p.moves }}</li>
-    {% endfor %}
-  </ul>
-  <a href="/location/{{ trainer.location_id }}">Back to {{ trainer.location_name }}</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}{{ trainer.name }}{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/{{ range(1, 20) | random }}.png" 
+               class="img-fluid mb-3" style="max-height: 200px;">
+          <h1>{{ trainer.name }}</h1>
+          <p class="lead">Location: {{ trainer.location_name }}</p>
+        </div>
+        <div class="col-md-8">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="card bg-light">
+                <div class="card-body">
+                  <h5 class="card-title">Money</h5>
+                  <p class="display-6">₽{{ trainer.money }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card bg-light">
+                <div class="card-body">
+                  <h5 class="card-title">Experience</h5>
+                  <p class="display-6">{{ trainer.xp }} XP</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <h2>Pokémon Team</h2>
+          <div class="row">
+            {% for p in pokemon %}
+            <div class="col-md-4 mb-3">
+              <div class="card pokemon-card">
+                <div class="card-body text-center">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ p.id }}.png" 
+                       class="img-fluid" style="max-height: 100px;">
+                  <h5>{{ p.name }}</h5>
+                  <p>Level {{ p.level }}</p>
+                  <div class="text-start">
+                    <h6>Moves:</h6>
+                    <ul>
+                      {% for move in p.moves.split(',') %}
+                      <li>{{ move }}</li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      
+      <a href="/location/{{ trainer.location_id }}" class="btn btn-outline-primary mt-3">
+        Back to {{ trainer.location_name }}
+      </a>
+    </div>
+  </div>
+{% endblock %}

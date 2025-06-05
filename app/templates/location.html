@@ -1,15 +1,25 @@
-<!doctype html>
-<html>
-<head>
-  <title>{{ location.name }}</title>
-</head>
-<body>
-  <h1>{{ location.name }}</h1>
-  <ul>
-    {% for tr in trainers %}
-    <li><a href="/trainer/{{ tr.id }}">{{ tr.name }}</a></li>
-    {% endfor %}
-  </ul>
-  <a href="/">Back to map</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}{{ location.name }}{% endblock %}
+
+{% block content %}
+  <div class="card mb-4">
+    <div class="card-body">
+      <h1 class="card-title">{{ location.name }}</h1>
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ range(1, 152) | random }}.png" 
+           class="img-fluid mb-3" style="max-height: 150px;">
+      
+      <h3>Trainers in this location:</h3>
+      <ul class="pokemon-list">
+        {% for tr in trainers %}
+        <li>
+          <a href="/trainer/{{ tr.id }}">{{ tr.name }}</a>
+          <span class="badge bg-primary float-end">{{ tr.pokemon_count }} Pokémon</span>
+        </li>
+        {% endfor %}
+      </ul>
+      
+      <a href="/" class="btn btn-outline-primary mt-3">Back to map</a>
+    </div>
+  </div>
+{% endblock %}

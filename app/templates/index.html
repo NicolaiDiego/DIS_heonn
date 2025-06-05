@@ -1,57 +1,80 @@
-<!doctype html>
-<html>
-<head>
-  <title>Hoenn Map</title>
-  <style>
-    .map { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-    .location { padding: 5px; background: rgba(255, 255, 255, 0.8); margin: 5px; border-radius: 5px; }
-    .location:hover { transform: scale(1.05); transition: 0.2s; }
-    #searchResults { margin-top: 20px; }
-  </style>
-</head>
-<body>
-  <h1>Hoenn Map</h1>
+{% extends "base.html" %}
 
-  <input type="text" id="searchBox" placeholder="Search for a trainer..." />
-  <button onclick="searchTrainer()">Search</button>
+{% block title %}Hoenn Map{% endblock %}
 
-  <div id="searchResults"></div>
+{% block content %}
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h1 class="display-4">Hoenn Region Map</h1>
+    </div>
+    <div class="col-md-4">
+      <div class="input-group">
+        <input type="text" id="searchBox" class="form-control" placeholder="Search for a trainer...">
+        <button class="btn btn-primary" onclick="searchTrainer()">Search</button>
+      </div>
+    </div>
+  </div>
 
-  <div class="map">
+  <div id="searchResults" class="mb-4"></div>
+
+  <div class="row">
     {% for loc in locations %}
-    <div class="location">
-      <a href="/location/{{ loc.id }}">{{ loc.name }}</a>
+    <div class="col-md-3 col-sm-6 mb-4">
+      <div class="location-card text-center">
+        <a href="/location/{{ loc.id }}" class="text-decoration-none">
+          <h5>{{ loc.name }}</h5>
+          <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{{ range(1, 152) | random }}.png" 
+               alt="Pokemon" class="img-fluid" style="max-height: 100px;">
+        </a>
+      </div>
     </div>
     {% endfor %}
   </div>
+{% endblock %}
 
+{% block scripts %}
   <script>
     async function searchTrainer() {
       const name = document.getElementById('searchBox').value;
       const res = await fetch(`/search?name=${encodeURIComponent(name)}`);
       const container = document.getElementById('searchResults');
+      
       container.innerHTML = '';
-
+      
       if (!res.ok) {
-        container.innerHTML = '<p>Error searching for trainers.</p>';
+        container.innerHTML = '<div class="alert alert-danger">Error searching for trainers.</div>';
         return;
       }
 
       const data = await res.json();
       if (data.length === 0) {
-        container.innerHTML = '<p>No trainers found.</p>';
+        container.innerHTML = '<div class="alert alert-info">No trainers found.</div>';
         return;
       }
 
+      const card = document.createElement('div');
+      card.className = 'card';
+      
+      const cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+      card.appendChild(cardBody);
+      
+      const title = document.createElement('h5');
+      title.className = 'card-title';
+      title.textContent = 'Search Results';
+      cardBody.appendChild(title);
+      
       const list = document.createElement('ul');
+      list.className = 'pokemon-list';
+      
       data.forEach(tr => {
         const item = document.createElement('li');
         item.innerHTML = `<a href="/trainer/${tr.id}">${tr.name}</a> - ${tr.location}`;
         list.appendChild(item);
       });
-
-      container.appendChild(list);
+      
+      cardBody.appendChild(list);
+      container.appendChild(card);
     }
   </script>
-</body>
-</html>
+{% endblock %}
