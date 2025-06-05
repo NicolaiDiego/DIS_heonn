@@ -25,7 +25,7 @@ The database and web-app is then run by in ur terminal:
 
 	docker compose up --build
 
-*Ensure the path is set to the working directory*
+*Ensure the path is set to the directory (.../DIS_heonn-main)*
 
 The web-app can then be found at:
 
