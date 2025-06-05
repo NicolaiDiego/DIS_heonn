@@ -9,7 +9,7 @@ See how much money and EXP you get for winning.
 
 If you know a trainer’s name, you can search for them directly in the search bar.
 
-###
+### Requirements
 
 Have Docker installed on your system. 
 https://www.docker.com/products/docker-desktop/
@@ -18,7 +18,7 @@ Have Postgresql installed.
 https://www.postgresql.org/download/
 
 
-###
+### How To Run
 Clone or Download repository files: https://github.com/NicolaiDiego/DIS_heonn/archive/refs/heads/main.zip
 
 The database and web-app is then run by:
