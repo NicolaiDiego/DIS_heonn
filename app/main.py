@@ -163,7 +163,7 @@ def wait_for_db(max_retries=10, delay=2):
         except psycopg2.OperationalError as e:
             print(f"Waiting for PostgreSQL... attempt {i+1}/{max_retries}")
             time.sleep(delay)
-    raise Exception("PostgreSQL not ready after several attempts.")
+    raise Exception("PostgreSQL not, please run the comamnd again.")
 
 if __name__ == "__main__":
     wait_for_db()
