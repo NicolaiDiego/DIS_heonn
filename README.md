@@ -3,14 +3,22 @@
 
 
 
-### How to compile the web-app from source (incl. scripts to initialize the database)?
+###
 
-You must have Docker installed on your system. 
+Have Docker installed on your system. 
 https://www.docker.com/products/docker-desktop/
 
-You must have Postgres installed also.
+Have Postgresql installed.
 https://www.postgresql.org/download/
 
-### How to run and interact with the web-app?
-#### Step 1:
-Download and extract the repo files: https://github.com/NicolaiDiego/DIS_heonn/archive/refs/heads/main.zip
+
+###
+Clone or Download repository files: https://github.com/NicolaiDiego/DIS_heonn/archive/refs/heads/main.zip
+
+The database and web-app is then run by:
+
+	docker compose up --build
+
+The web-app can then be found at 
+
+	http://127.0.0.1:5000
