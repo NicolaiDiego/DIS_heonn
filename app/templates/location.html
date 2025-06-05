@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+<head>
+  <title>{{ location.name }}</title>
+</head>
+<body>
+  <h1>{{ location.name }}</h1>
+  <ul>
+    {% for tr in trainers %}
+    <li><a href="/trainer/{{ tr.id }}">{{ tr.name }}</a></li>
+    {% endfor %}
+  </ul>
+  <a href="/">Back to map</a>
+</body>
+</html>

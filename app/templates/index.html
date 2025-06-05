@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <title>Hoenn Map</title>
+  <style>
+    .map { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+    .location { padding: 5px; background: rgba(255, 255, 255, 0.8); margin: 5px; border-radius: 5px; }
+    .location:hover { transform: scale(1.05); transition: 0.2s; }
+    #searchResults { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Hoenn Map</h1>
+
+  <input type="text" id="searchBox" placeholder="Search for a trainer..." />
+  <button onclick="searchTrainer()">Search</button>
+
+  <div id="searchResults"></div>
+
+  <div class="map">
+    {% for loc in locations %}
+    <div class="location">
+      <a href="/location/{{ loc.id }}">{{ loc.name }}</a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    async function searchTrainer() {
+      const name = document.getElementById('searchBox').value;
+      const res = await fetch(`/search?name=${encodeURIComponent(name)}`);
+      const container = document.getElementById('searchResults');
+      container.innerHTML = '';
+
+      if (!res.ok) {
+        container.innerHTML = '<p>Error searching for trainers.</p>';
+        return;
+      }
+
+      const data = await res.json();
+      if (data.length === 0) {
+        container.innerHTML = '<p>No trainers found.</p>';
+        return;
+      }
+
+      const list = document.createElement('ul');
+      data.forEach(tr => {
+        const item = document.createElement('li');
+        item.innerHTML = `<a href="/trainer/${tr.id}">${tr.name}</a> - ${tr.location}`;
+        list.appendChild(item);
+      });
+
+      container.appendChild(list);
+    }
+  </script>
+</body>
+</html>
