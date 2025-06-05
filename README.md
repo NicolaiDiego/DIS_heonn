@@ -3,8 +3,8 @@
 
 
 
-### How to compile your web-app from source (incl. scripts to initialize the database)?
+### How to compile the web-app from source (incl. scripts to initialize the database)?
 
 
 
-### How to run and interact with your web-app?
+### How to run and interact with the web-app?
