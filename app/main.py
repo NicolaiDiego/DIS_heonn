@@ -3,6 +3,7 @@ import json
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import re
+import time
 from flask import Flask, g, render_template, request, jsonify
 
 
@@ -152,7 +153,19 @@ def search():
 
     return jsonify(results)
 
+def wait_for_db(max_retries=10, delay=2):
+    for i in range(max_retries):
+        try:
+            conn = psycopg2.connect(**POSTGRES)
+            conn.close()
+            print("PostgreSQL is ready.")
+            return
+        except psycopg2.OperationalError as e:
+            print(f"Waiting for PostgreSQL... attempt {i+1}/{max_retries}")
+            time.sleep(delay)
+    raise Exception("PostgreSQL not ready after several attempts.")
 
 if __name__ == "__main__":
+    wait_for_db()
     init_db()
     app.run(host="0.0.0.0", port=5000)
