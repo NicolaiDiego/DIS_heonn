@@ -21,10 +21,12 @@ https://www.postgresql.org/download/
 ### How To Run
 Clone or Download repository files: https://github.com/NicolaiDiego/DIS_heonn/archive/refs/heads/main.zip
 
-The database and web-app is then run by:
+The database and web-app is then run by in ur terminal:
 
 	docker compose up --build
 
-The web-app can then be found at 
+*Ensure the path is set to the working directory*
+
+The web-app can then be found at:
 
 	http://127.0.0.1:5000
